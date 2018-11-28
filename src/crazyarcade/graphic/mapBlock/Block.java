@@ -36,7 +36,7 @@ public class Block {
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\5.png");
 //                disappearable = false;
                 break;
-            case 6: //�ϴ�
+            case 6: //
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\6.png");
 //                disappearable = false;
                 break;
