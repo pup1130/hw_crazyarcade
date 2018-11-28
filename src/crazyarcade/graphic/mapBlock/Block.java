@@ -13,26 +13,26 @@ public class Block {
     public Block(int blockNumber) {
 
         switch (blockNumber) {
-            case 0: //����
+            case 0: //
                 appear = false;
                 break;
-            case 1: //����
+            case 1: //
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\1.png");
                 disappearable = false;
                 break;
-            case 2: //��
+            case 2: //
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\2.png");
                 disappearable = true;
                 break;
-            case 3: //��
+            case 3: //
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\3.png");
                 disappearable = false;
                 break;
-            case 4: //��ȫ
+            case 4: //
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\4.png");
 //                disappearable = false;
                 break;
-            case 5: //���
+            case 5: //
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\5.png");
 //                disappearable = false;
                 break;
@@ -40,9 +40,9 @@ public class Block {
                 blockImage = Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\graphic\\mapBlock\\6.png");
 //                disappearable = false;
                 break;
-            case 256://�н�
+            case 256://
                 break;
-            case 257://��
+            case 257://
                 break;
             default:
                 break;
