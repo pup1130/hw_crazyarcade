@@ -9,8 +9,6 @@ import java.awt.*;
 
 public class Frame extends JFrame implements Constant {
 
-    public Game game;
-
     static CardLayout cards = new CardLayout();
     static StartPanel startPanel = new StartPanel();
     static MenuPanel menuPanel = new MenuPanel();

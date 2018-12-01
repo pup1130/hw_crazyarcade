@@ -1,6 +1,6 @@
 package crazyarcade;
 
-import java.awt.Color;
+import java.awt.*;
 
 import crazyarcade.character.Player;
 import crazyarcade.graphic.mapBlock.Block;
@@ -40,6 +40,8 @@ public class Game extends Frame implements Runnable {
     private int x, y;
     private int cnt;
     Thread thread;
+    private Image buffimg;
+    private static Graphics gc;
 
     private void init() {
         player.setX(0);
@@ -49,14 +51,32 @@ public class Game extends Frame implements Runnable {
     public void start() {
         input = new Keyboard();
         this.addKeyListener(input);
-        thread = new Thread(this);
         try {
-            thread.sleep(1000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         setBackground(Color.RED);
+        init();
+    }
+
+    @Override
+    public void paint(Graphics g) {
+        buffimg = createImage(542, 542);
+        gc = buffimg.getGraphics();
+        update(g);
+    }
+
+    @Override
+    public void update(Graphics g) {
+        DrawImg();
+
+        g.drawImage(buffimg, 2, 56, this);
+    }
+
+    private void DrawImg() {
+
     }
 
     @Override

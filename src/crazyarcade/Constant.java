@@ -2,8 +2,8 @@ package crazyarcade;
 
 public interface Constant {
 
-    int SCREEN_WIDTH = 960;
-    int SCREEN_HEIGHT = 595;
+    int SCREEN_WIDTH = 962;
+    int SCREEN_HEIGHT = 597;
     int START_BUTTON_WIDTH = 240;
     int START_BUTTON_HEIGHT = 120;
     int MENU_BUTTON_LENGTH = 200;

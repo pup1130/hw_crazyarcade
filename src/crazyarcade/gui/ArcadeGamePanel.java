@@ -13,13 +13,14 @@ public class ArcadeGamePanel extends JPanel {
     public static int[][] mapBlock = new int[15][15];
     boolean appear = true;
     boolean isWool = false;
+    private Game game;
     static int gameLevel = 0;
 
     ArcadeGamePanel() {
         setBackground(Color.BLUE);
         setVisible(true);
         setLayout(null);
-
+//        game.start();
 
         //
         try {

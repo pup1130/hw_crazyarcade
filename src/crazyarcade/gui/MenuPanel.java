@@ -1,12 +1,15 @@
 package crazyarcade.gui;
 
 import crazyarcade.Constant;
+import crazyarcade.Game;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel implements Constant {
 
+
+    public Game game = new Game();
 
     MenuPanel() {
         setBackground(Color.getHSBColor(0.084f, 0.1f, 0.99f));
@@ -39,7 +42,10 @@ public class MenuPanel extends JPanel implements Constant {
 //        returnStartButton.setContentAreaFilled(false);
 //        returnStartButton.setFocusPainted(false);
 
-        arcadeButton.addActionListener(e -> Frame.cards.show(getParent(), "ArcadeGamePanel"));
+        arcadeButton.addActionListener(e -> {
+            Frame.cards.show(getParent(), "ArcadeGamePanel");
+            game.start();
+        });
         bossButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
         optionButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
         statusButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
