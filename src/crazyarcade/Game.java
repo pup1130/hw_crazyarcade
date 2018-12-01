@@ -6,17 +6,10 @@ import crazyarcade.character.Player;
 import crazyarcade.graphic.mapBlock.Block;
 import crazyarcade.gui.ArcadeGamePanel;
 import crazyarcade.gui.Frame;
+import crazyarcade.Constant;
 
 public class Game extends Frame implements Runnable {
-
-    private static final int BLOCK_COUNT = 15;
-    private static final int ONE_BLOCK_LENGTH = 36;
-    private static final int Y_RELAX = 2;
-    private static final int X_RELAX = 2;
-    private static final int CAT_HEIGHT = 24;
-    private static final int MAP_SIZE = 540;
-    private static final int WOOL_RELAX = 2;
-
+    
     public static int WOOL_MAX = 2;
     public static int WOOL_HEAD = 0;
     public static int WOOL_TAIL = 0;//queue
