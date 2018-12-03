@@ -27,7 +27,6 @@ public class Keyboard implements KeyListener {
 
     @Override
     public void keyPressed(KeyEvent e) {
-        System.out.println("YAY");
         keys[e.getKeyCode()] = true;
     }
 

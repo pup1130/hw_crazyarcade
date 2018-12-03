@@ -13,6 +13,7 @@ public class Game implements Constant {
 
     private Frame frame;
     public Player player;
+    private Keyboard keyboard;
 
     public static int WOOL_MAX = 2;
     public static int WOOL_HEAD = 0;
@@ -40,14 +41,17 @@ public class Game implements Constant {
     private Image buffimg;
     private static Graphics gc;
 
-    public Game(Frame frame) throws CAException {
+    public Game(Frame frame, Keyboard keyboard) throws CAException {
         this.frame = frame;
+        this.keyboard = keyboard;
     }
 
     public void init() {
         player = new Player();
         player.setX(0);
         player.setY(0);
+        updateMap();
+        setBlock();
     }
 
 
@@ -71,9 +75,8 @@ public class Game implements Constant {
         boolean checkRight = true;
         boolean checkSpace = true;
 
-        if (ArcadeGamePanel.input.isKeyUp()) {
-            System.out.println(player.getY());
-            if (player.getY() <= 2) {
+        if (keyboard.isKeyUp()) {
+            if (player.getY() <= 0) {
                 checkUp = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -96,8 +99,8 @@ public class Game implements Constant {
             }
         }
 
-        if (ArcadeGamePanel.input.isKeyDown()) {
-            if (player.getY() >= MAP_SIZE + 2 - CAT_HEIGHT) {
+        if (keyboard.isKeyDown()) {
+            if (player.getY() >= MAP_SIZE - CAT_HEIGHT) {
                 checkDown = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -105,23 +108,23 @@ public class Game implements Constant {
                     if (mapBlock[i][j].isAppear() && !mapBlock[i][j].isWool()) {
                         if (player.getY() >= (j - 1) * ONE_BLOCK_LENGTH + ONE_BLOCK_LENGTH - CAT_HEIGHT + Y_RELAX &&
                                 player.getY() <= j * ONE_BLOCK_LENGTH + ONE_BLOCK_LENGTH - CAT_HEIGHT - Y_RELAX &&
-                                player.getX() >= (i - 1) * ONE_BLOCK_LENGTH + 2 + X_RELAX &&
-                                player.getX() <= (i + 1) * ONE_BLOCK_LENGTH + 2 - X_RELAX) {
+                                player.getX() >= (i - 1) * ONE_BLOCK_LENGTH + X_RELAX &&
+                                player.getX() <= (i + 1) * ONE_BLOCK_LENGTH - X_RELAX) {
                             checkDown = false;
                         }
                     }
                 }
             }
             if (checkDown) {
-                player.setY(player.getY() + player.getSpeed());
                 playerMove = true;
+                player.setY(player.getY() + player.getSpeed());
             } else {
                 //				y-=4;
             }
         }
 
-        if (ArcadeGamePanel.input.isKeyLeft()) {
-            if (player.getX() <= 2) {
+        if (keyboard.isKeyLeft()) {
+            if (player.getX() <= 0) {
                 checkLeft = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -144,8 +147,8 @@ public class Game implements Constant {
             }
         }
 
-        if (ArcadeGamePanel.input.isKeyRight()) {
-            if (player.getX() >= 2 + MAP_SIZE - ONE_BLOCK_LENGTH) {
+        if (keyboard.isKeyRight()) {
+            if (player.getX() >= MAP_SIZE - ONE_BLOCK_LENGTH) {
                 checkRight = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -167,7 +170,7 @@ public class Game implements Constant {
                 //				x-=4;
             }
         }
-        if (ArcadeGamePanel.input.isKeySpace()) {
+        if (keyboard.isKeySpace()) {
 
             if ((player.getX() % ONE_BLOCK_LENGTH >= WOOL_RELAX && player.getX() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX) ||
                     (player.getY() % ONE_BLOCK_LENGTH >= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT && player.getY() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX)) {
@@ -189,5 +192,12 @@ public class Game implements Constant {
 
     }
 
+    public Block getMapBlock(int a, int b) {
+        return mapBlock[a][b];
+    }
+
+    public void setMapBlock(Block mapBlock, int a, int b) {
+        this.mapBlock[a][b] = mapBlock;
+    }
 
 }

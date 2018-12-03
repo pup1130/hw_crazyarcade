@@ -1,9 +1,10 @@
 package crazyarcade.gui;
 
+import crazyarcade.Constant;
 import crazyarcade.Game;
 import crazyarcade.Keyboard;
-import crazyarcade.character.Player;
 import crazyarcade.exception.CAException;
+import crazyarcade.graphic.mapBlock.Block;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-public class ArcadeGamePanel extends JPanel implements Runnable {
+public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
 
     public static int[][] mapBlockNum = new int[15][15];
 
@@ -20,20 +21,22 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
     boolean isWool = false;
     private Frame frame;
     private Game game;
+    private Keyboard keyboard;
     public static Keyboard input;
     static int gameLevel = 0;
     private Image buffimg;
     private Graphics gc;
     private int cnt;
+    private Thread thread;
 //    private Player player = new Player();
 
 
-    ArcadeGamePanel(Frame frame, Game game) throws CAException {
+    ArcadeGamePanel(Frame frame, Game game, Keyboard keyboard) throws CAException {
         this.frame = frame;
         this.game = game;
-        setFocusable(true);
-        requestFocusInWindow();
-        setBackground(Color.BLUE);
+        this.keyboard = keyboard;
+//        setFocusable(true);
+//        requestFocusInWindow();
         setVisible(true);
         setLayout(null);
 
@@ -76,17 +79,20 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
     }
 
     public void start() {
-        input = new Keyboard();
-        addKeyListener(input);
+//        input = new Keyboard();
+//        frame.addKeyListener(input);
+        setFocusable(true);
+        requestFocus();
+        requestFocusInWindow();
+        thread = new Thread(this);
+        thread.start();
         try {
             Thread.sleep(1000);
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        setBackground(Color.RED);
         game.init();
-
 
     }
 
@@ -104,8 +110,16 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
     }
 
     private void DrawImg() {
-        gc.setColor(Color.GRAY);
-        gc.drawRect(0, 0, 542, 542);
+
+        for (int i = 0; i < BLOCK_COUNT; i++) {
+            for (int j = 0; j < BLOCK_COUNT; j++) {
+                if (mapBlockNum[i][j] != 0) {
+                    if (game.getMapBlock(i, j).isAppear()) {
+                        gc.drawImage(game.getMapBlock(i, j).getBlockImage(), i * ONE_BLOCK_LENGTH, j * ONE_BLOCK_LENGTH, this);
+                    }
+                }
+            }
+        }
         gc.setClip(0, 0, 36, 24);
         gc.drawImage(game.player.getImg(), game.player.getX(), game.player.getY(), this);
     }
@@ -114,6 +128,7 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
     public void run() {
         while (true) {
             try {
+                keyboard.update();
                 game.keyProcess();
                 repaint();
 
@@ -125,7 +140,6 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
             }
         }
     }
-
 
 
 }

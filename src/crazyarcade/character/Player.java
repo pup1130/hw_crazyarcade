@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class Player {
     private Image img = new ImageIcon("src\\crazyarcade\\character\\Ket.png").getImage();
-    private int speed;
+    private int speed = 2;
     private int x, y;
 
     public int getSpeed() {

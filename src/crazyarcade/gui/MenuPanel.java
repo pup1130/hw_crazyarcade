@@ -2,6 +2,7 @@ package crazyarcade.gui;
 
 import crazyarcade.Constant;
 import crazyarcade.Game;
+import crazyarcade.Keyboard;
 import crazyarcade.exception.CAException;
 
 import javax.swing.*;
@@ -15,9 +16,13 @@ public class MenuPanel extends JPanel implements Constant {
     private ArcadeGamePanel arcadeGamePanel;
     private CardLayout cardLayout;
 
-    MenuPanel(Frame frame, ArcadeGamePanel arcadeGamePanel) throws CAException {
+    MenuPanel(Frame frame, ArcadeGamePanel arcadeGamePanel, Keyboard keyboard) throws CAException {
         this.frame = frame;
         this.arcadeGamePanel = arcadeGamePanel;
+        this.arcadeGamePanel.addKeyListener(keyboard);
+        this.arcadeGamePanel.setFocusable(true);
+        this.arcadeGamePanel.requestFocusInWindow();
+        this.arcadeGamePanel.requestFocus();
 //        Thread arcade = new Thread(this.arcadeGamePanel,"arcade");
 
 //        cardLayout = new CardLayout();

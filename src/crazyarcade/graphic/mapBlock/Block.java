@@ -5,12 +5,14 @@ import java.awt.*;
 public class Block {
 
     private boolean disappearable;
-    private boolean appear;
+    private boolean appear = true;
     private boolean isWool;
     private Image blockImage;
     private int blockNumber;
 
     public Block(int blockNumber) {
+
+        this.blockNumber = blockNumber;
 
         switch (blockNumber) {
             case 0: //
