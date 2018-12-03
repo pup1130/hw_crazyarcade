@@ -95,7 +95,7 @@ public class Game implements Constant {
                 playerMove = true;
                 player.setY(player.getY() - player.getSpeed());
             } else {
-                //				y+=4;
+                y += 4;
             }
         }
 
@@ -119,7 +119,7 @@ public class Game implements Constant {
                 playerMove = true;
                 player.setY(player.getY() + player.getSpeed());
             } else {
-                //				y-=4;
+                y -= 4;
             }
         }
 
@@ -143,7 +143,7 @@ public class Game implements Constant {
                 player.setX(player.getX() - player.getSpeed());
                 playerMove = true;
             } else {
-                //				x+=4;
+                x += 4;
             }
         }
 
@@ -167,7 +167,7 @@ public class Game implements Constant {
                 player.setX(player.getX() + player.getSpeed());
                 playerMove = true;
             } else {
-                //				x-=4;
+                x -= 4;
             }
         }
         if (keyboard.isKeySpace()) {

@@ -111,6 +111,7 @@ public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
 
     private void DrawImg() {
 
+        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         for (int i = 0; i < BLOCK_COUNT; i++) {
             for (int j = 0; j < BLOCK_COUNT; j++) {
                 if (mapBlockNum[i][j] != 0) {
@@ -120,7 +121,7 @@ public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
                 }
             }
         }
-        gc.setClip(0, 0, 36, 24);
+        gc.setClip(game.player.getX(), game.player.getY(), 36, 24);
         gc.drawImage(game.player.getImg(), game.player.getX(), game.player.getY(), this);
     }
 
