@@ -154,7 +154,6 @@ public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
         for(int i=0;i<BLOCK_COUNT;i++) {
         	for(int j=0;j<BLOCK_COUNT;j++) {
         		if(game.getMapBlock(i, j).isExploded()) {
-        			System.out.println(i+" , "+j);
         			gc.drawImage(game.getMapBlock(i, j).getBlockImage(), i*ONE_BLOCK_LENGTH, j*ONE_BLOCK_LENGTH,this);
         			if(game.getExplodeCount(i, j)<BOMB_LENGTH) {
             			game.setExplodeCount(i, j, game.getExplodeCount(i, j)+1);

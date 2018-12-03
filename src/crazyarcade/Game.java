@@ -190,7 +190,6 @@ public class Game implements Constant {
                     mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
                     mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setWool(true);
                 }
-                System.out.println("WOOL!");
                 
             }
         }
