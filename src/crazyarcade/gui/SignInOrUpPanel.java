@@ -31,23 +31,23 @@ public class SignInOrUpPanel extends JPanel implements Constant {
                 new ImageIcon("src\\crazyarcade\\gui\\startBackground.png").getImage());
         add(signBackgroundPanel);
 
-        JButton signinButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signin.png"));//로그인 할 수 있는 버튼 생성
+        JButton signinButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signin.png"));
         signinButton.setBorderPainted(false);
         signinButton.setContentAreaFilled(false);
         signinButton.setFocusPainted(false);
 
-        signinButton.addActionListener(e -> Frame.cards.show(getParent(), "SignInPanel"));
+        signinButton.addActionListener(e -> Frame.cardLayout.show(getParent(), "SignInPanel"));
 
         signinButton.setBounds(SCREEN_WIDTH / 2 - START_BUTTON_WIDTH / 2, (SCREEN_HEIGHT - 255) / 2 - START_BUTTON_HEIGHT / 2, START_BUTTON_WIDTH, START_BUTTON_HEIGHT);
 
         signBackgroundPanel.add(signinButton);
 
-        JButton signupButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signup.png"));//회원가입 할 수 있는 버튼 
+        JButton signupButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signup.png"));
         signupButton.setBorderPainted(false);
         signupButton.setContentAreaFilled(false);
         signupButton.setFocusPainted(false);
 
-        signupButton.addActionListener(e -> Frame.cards.show(getParent(), "SignUpPanel"));
+        signupButton.addActionListener(e -> Frame.cardLayout.show(getParent(), "SignUpPanel"));
 
         signupButton.setBounds(SCREEN_WIDTH / 2 - START_BUTTON_WIDTH / 2, (SCREEN_HEIGHT + 145) / 2 - START_BUTTON_HEIGHT / 2, START_BUTTON_WIDTH, START_BUTTON_HEIGHT);
 

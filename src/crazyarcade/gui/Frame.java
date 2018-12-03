@@ -13,7 +13,10 @@ public class Frame extends JFrame implements Constant {
     private StartPanel startPanel;
     private MenuPanel menuPanel;
     private ArcadeGamePanel arcadeGamePanel;
-    private CardLayout cardLayout;
+    private SignInOrUpPanel signinorupPanel;
+    private SignUpPanel signupPanel;
+    private SignInPanel signinPanel;
+    static CardLayout cardLayout;
     private Game game;
 
     public Frame() throws CAException {
@@ -32,10 +35,14 @@ public class Frame extends JFrame implements Constant {
         startPanel = new StartPanel(this);
         arcadeGamePanel = new ArcadeGamePanel(this, game);
         menuPanel = new MenuPanel(this, arcadeGamePanel);
+        signinorupPanel = new SignInOrUpPanel();
+        signinPanel = new SignInPanel();
+        signupPanel = new SignUpPanel();
+        
 
         setLayout(cardLayout);
         cardLayout();
-        cardLayout.show(getContentPane(), "StartPanel");
+        cardLayout.show(getContentPane(), "SignInOrUpPanel");
     }
 
     private void cardLayout() {
@@ -43,6 +50,9 @@ public class Frame extends JFrame implements Constant {
         add(menuPanel, "MenuPanel");
         //add(arcadeModeLoadingPanel,"ArcadeModeLoadingPanel");
         add(arcadeGamePanel, "ArcadeGamePanel");
+        add(signinorupPanel, "SignInOrUpPanel");
+        add(signinPanel, "SignInPanel");
+        add(signupPanel, "SignUpPanel");
     }
 
     public CardLayout getCards() {

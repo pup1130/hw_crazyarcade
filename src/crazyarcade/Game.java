@@ -12,6 +12,7 @@ import java.awt.*;
 public class Game implements Constant {
 
     private Frame frame;
+    public Player player;
 
     public static int WOOL_MAX = 2;
     public static int WOOL_HEAD = 0;
@@ -27,8 +28,8 @@ public class Game implements Constant {
     boolean playerMove = false;
 
 
-    private Keyboard input;
-    private Player player;
+//    private Keyboard input;
+//    private Player player = ArcadeGamePanel.getPlayer();
 
     private int[][] mapBlockNum;
     private Block[][] mapBlock = new Block[15][15];
@@ -70,7 +71,8 @@ public class Game implements Constant {
         boolean checkRight = true;
         boolean checkSpace = true;
 
-        if (input.isKeyUp()) {
+        if (ArcadeGamePanel.input.isKeyUp()) {
+            System.out.println(player.getY());
             if (player.getY() <= 2) {
                 checkUp = false;
             }
@@ -94,7 +96,7 @@ public class Game implements Constant {
             }
         }
 
-        if (input.isKeyDown()) {
+        if (ArcadeGamePanel.input.isKeyDown()) {
             if (player.getY() >= MAP_SIZE + 2 - CAT_HEIGHT) {
                 checkDown = false;
             }
@@ -118,7 +120,7 @@ public class Game implements Constant {
             }
         }
 
-        if (input.isKeyLeft()) {
+        if (ArcadeGamePanel.input.isKeyLeft()) {
             if (player.getX() <= 2) {
                 checkLeft = false;
             }
@@ -142,7 +144,7 @@ public class Game implements Constant {
             }
         }
 
-        if (input.isKeyRight()) {
+        if (ArcadeGamePanel.input.isKeyRight()) {
             if (player.getX() >= 2 + MAP_SIZE - ONE_BLOCK_LENGTH) {
                 checkRight = false;
             }
@@ -165,7 +167,7 @@ public class Game implements Constant {
                 //				x-=4;
             }
         }
-        if (input.isKeySpace()) {
+        if (ArcadeGamePanel.input.isKeySpace()) {
 
             if ((player.getX() % ONE_BLOCK_LENGTH >= WOOL_RELAX && player.getX() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX) ||
                     (player.getY() % ONE_BLOCK_LENGTH >= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT && player.getY() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX)) {

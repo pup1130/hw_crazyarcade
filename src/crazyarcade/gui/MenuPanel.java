@@ -18,6 +18,8 @@ public class MenuPanel extends JPanel implements Constant {
     MenuPanel(Frame frame, ArcadeGamePanel arcadeGamePanel) throws CAException {
         this.frame = frame;
         this.arcadeGamePanel = arcadeGamePanel;
+//        Thread arcade = new Thread(this.arcadeGamePanel,"arcade");
+
 //        cardLayout = new CardLayout();
 //        JPanel panel = new JPanel();
 
@@ -57,6 +59,7 @@ public class MenuPanel extends JPanel implements Constant {
             frame.getCards().show(getParent(), "ArcadeGamePanel");
             // game = new Game(frame);
             this.arcadeGamePanel.start();
+//            arcade.start();
         });
         bossButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
         optionButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));

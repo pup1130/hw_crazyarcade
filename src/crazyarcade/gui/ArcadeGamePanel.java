@@ -2,6 +2,7 @@ package crazyarcade.gui;
 
 import crazyarcade.Game;
 import crazyarcade.Keyboard;
+import crazyarcade.character.Player;
 import crazyarcade.exception.CAException;
 
 import javax.swing.*;
@@ -14,20 +15,24 @@ import java.util.StringTokenizer;
 public class ArcadeGamePanel extends JPanel implements Runnable {
 
     public static int[][] mapBlockNum = new int[15][15];
+
     boolean appear = true;
     boolean isWool = false;
-    private Game game;
     private Frame frame;
-    private Keyboard input;
+    private Game game;
+    public static Keyboard input;
     static int gameLevel = 0;
     private Image buffimg;
     private Graphics gc;
     private int cnt;
+//    private Player player = new Player();
 
 
     ArcadeGamePanel(Frame frame, Game game) throws CAException {
         this.frame = frame;
         this.game = game;
+        setFocusable(true);
+        requestFocusInWindow();
         setBackground(Color.BLUE);
         setVisible(true);
         setLayout(null);
@@ -72,15 +77,17 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
 
     public void start() {
         input = new Keyboard();
-        this.addKeyListener(input);
+        addKeyListener(input);
         try {
             Thread.sleep(1000);
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         setBackground(Color.RED);
         game.init();
+
+
     }
 
     @Override
@@ -93,12 +100,14 @@ public class ArcadeGamePanel extends JPanel implements Runnable {
     @Override
     public void update(Graphics g) {
         DrawImg();
-
-        g.drawImage(buffimg, 2, 56, this);
+        g.drawImage(buffimg, 0, 0, this);
     }
 
     private void DrawImg() {
-
+        gc.setColor(Color.GRAY);
+        gc.drawRect(0, 0, 542, 542);
+        gc.setClip(0, 0, 36, 24);
+        gc.drawImage(game.player.getImg(), game.player.getX(), game.player.getY(), this);
     }
 
     @Override
