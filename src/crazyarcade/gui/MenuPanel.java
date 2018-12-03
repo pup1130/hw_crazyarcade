@@ -15,17 +15,17 @@ public class MenuPanel extends JPanel implements Constant {
     private ArcadeGamePanel arcadeGamePanel;
     private CardLayout cardLayout;
 
-    MenuPanel(Frame frame) throws CAException {
+    MenuPanel(Frame frame, ArcadeGamePanel arcadeGamePanel) throws CAException {
         this.frame = frame;
+        this.arcadeGamePanel = arcadeGamePanel;
 //        cardLayout = new CardLayout();
 //        JPanel panel = new JPanel();
 
         setBackground(Color.getHSBColor(0.084f, 0.1f, 0.99f));
         setLayout(null);
 //        panel.setLayout(null);
-
-        arcadeGamePanel = new ArcadeGamePanel(frame);
-        add(arcadeGamePanel, "ArcadeGamePanel");
+//        arcadeGamePanel = new ArcadeGamePanel(frame, game);
+//        add(arcadeGamePanel, "ArcadeGamePanel");
 
         JButton arcadeButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\arcadeButton.png"));
         JButton bossButton = new JButton("bossButton");
@@ -55,12 +55,8 @@ public class MenuPanel extends JPanel implements Constant {
 
         arcadeButton.addActionListener(e -> {
             frame.getCards().show(getParent(), "ArcadeGamePanel");
-            try {
-                game = new Game(frame);
-                game.start();
-            } catch (CAException e1) {
-                e1.printStackTrace();
-            }
+            // game = new Game(frame);
+            this.arcadeGamePanel.start();
         });
         bossButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
         optionButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));

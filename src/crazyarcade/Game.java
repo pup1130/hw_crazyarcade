@@ -8,7 +8,8 @@ import crazyarcade.gui.Frame;
 
 import java.awt.*;
 
-public class Game extends Frame implements Runnable {
+
+public class Game implements Constant {
 
     private Frame frame;
 
@@ -29,8 +30,8 @@ public class Game extends Frame implements Runnable {
     private Keyboard input;
     private Player player;
 
-    int[][] mapBlockNum;
-    Block[][] mapBlock = new Block[15][15];
+    private int[][] mapBlockNum;
+    private Block[][] mapBlock = new Block[15][15];
 
     private int x, y;
     private int cnt;
@@ -42,58 +43,12 @@ public class Game extends Frame implements Runnable {
         this.frame = frame;
     }
 
-    private void init() {
+    public void init() {
         player = new Player();
         player.setX(0);
         player.setY(0);
     }
 
-    public void start() {
-        input = new Keyboard();
-        this.addKeyListener(input);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        setBackground(Color.RED);
-        init();
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        buffimg = createImage(542, 542);
-        gc = buffimg.getGraphics();
-        update(g);
-    }
-
-    @Override
-    public void update(Graphics g) {
-        DrawImg();
-
-        g.drawImage(buffimg, 2, 56, this);
-    }
-
-    private void DrawImg() {
-
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                keyProcess();
-                repaint();
-
-                Thread.sleep(20);
-                cnt++;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public void updateMap() {
         mapBlockNum = ArcadeGamePanel.mapBlockNum;
@@ -133,7 +88,7 @@ public class Game extends Frame implements Runnable {
             }
             if (checkUp) {
                 playerMove = true;
-                player.setY(getY() - player.getSpeed());
+                player.setY(player.getY() - player.getSpeed());
             } else {
                 //				y+=4;
             }

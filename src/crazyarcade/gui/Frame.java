@@ -1,6 +1,7 @@
 package crazyarcade.gui;
 
 import crazyarcade.Constant;
+import crazyarcade.Game;
 import crazyarcade.exception.CAException;
 import crazyarcade.gui.menu.Menu;
 
@@ -13,6 +14,7 @@ public class Frame extends JFrame implements Constant {
     private MenuPanel menuPanel;
     private ArcadeGamePanel arcadeGamePanel;
     private CardLayout cardLayout;
+    private Game game;
 
     public Frame() throws CAException {
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -25,10 +27,11 @@ public class Frame extends JFrame implements Constant {
 //        setBackground();
 
         cardLayout = new CardLayout();
+        game = new Game(this);
 
         startPanel = new StartPanel(this);
-        menuPanel = new MenuPanel(this);
-        arcadeGamePanel = new ArcadeGamePanel(this);
+        arcadeGamePanel = new ArcadeGamePanel(this, game);
+        menuPanel = new MenuPanel(this, arcadeGamePanel);
 
         setLayout(cardLayout);
         cardLayout();
