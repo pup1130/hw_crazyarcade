@@ -31,12 +31,15 @@ public class SignInPanel extends JPanel implements Constant {
                 new ImageIcon("src\\crazyarcade\\gui\\startBackground.png").getImage());
         add(BackgroundPanel);
 
+        Label namelabel = new Label("ID : ", Label.RIGHT);
+        final TextField IDText = new TextField(10);
+        
         JButton okButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\ok.png"));
         okButton.setBorderPainted(false);
         okButton.setContentAreaFilled(false);
         okButton.setFocusPainted(false);
 
-        okButton.addActionListener(e -> Frame.cards.show(getParent(), "StartPanel"));
+        okButton.addActionListener(e -> Frame.cardLayout.show(getParent(), "StartPanel"));
 
         okButton.setBounds(SCREEN_WIDTH / 2 - START_BUTTON_WIDTH / 2, (SCREEN_HEIGHT - 55) / 2 - START_BUTTON_HEIGHT / 2, START_BUTTON_WIDTH, START_BUTTON_HEIGHT);
 

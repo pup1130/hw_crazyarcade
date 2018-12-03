@@ -8,6 +8,8 @@ import java.awt.*;
 
 public class StartPanel extends JPanel implements Constant {
 
+    private Frame frame;
+
     class StartBackgroundPanel extends JPanel {
         private Image image;
 
@@ -23,7 +25,6 @@ public class StartPanel extends JPanel implements Constant {
         }
     }
 
-    private Frame frame;
 
     StartPanel(Frame frame) {
         this.frame = frame;

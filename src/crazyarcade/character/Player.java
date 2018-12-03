@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Player {
-    Image img = new ImageIcon("src\\crazyarcade\\character\\Ket.png").getImage();
-    private int speed;
+    private Image img = new ImageIcon("src\\crazyarcade\\character\\Ket.png").getImage();
+    private int speed = 2;
     private int x, y;
 
     public int getSpeed() {
@@ -31,5 +31,10 @@ public class Player {
     public void setY(int y) {
         this.y = y;
     }
+
+    public Image getImg() {
+        return img;
+    }
+
 
 }

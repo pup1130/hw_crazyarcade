@@ -8,9 +8,12 @@ import crazyarcade.gui.Frame;
 
 import java.awt.*;
 
-public class Game extends Frame implements Runnable {
+
+public class Game implements Constant {
 
     private Frame frame;
+    public Player player;
+    private Keyboard keyboard;
 
     public static int WOOL_MAX = 2;
     public static int WOOL_HEAD = 0;
@@ -26,11 +29,11 @@ public class Game extends Frame implements Runnable {
     boolean playerMove = false;
 
 
-    private Keyboard input;
-    private Player player;
+//    private Keyboard input;
+//    private Player player = ArcadeGamePanel.getPlayer();
 
-    int[][] mapBlockNum;
-    Block[][] mapBlock = new Block[15][15];
+    private int[][] mapBlockNum;
+    private Block[][] mapBlock = new Block[15][15];
 
     private int x, y;
     private int cnt;
@@ -38,61 +41,19 @@ public class Game extends Frame implements Runnable {
     private Image buffimg;
     private static Graphics gc;
 
-    public Game(Frame frame) throws CAException {
+    public Game(Frame frame, Keyboard keyboard) throws CAException {
         this.frame = frame;
+        this.keyboard = keyboard;
     }
 
-    private void init() {
+    public void init() {
+        player = new Player();
         player.setX(0);
         player.setY(0);
+        updateMap();
+        setBlock();
     }
 
-    public void start() {
-        input = new Keyboard();
-        this.addKeyListener(input);
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        setBackground(Color.RED);
-        init();
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        buffimg = createImage(542, 542);
-        gc = buffimg.getGraphics();
-        update(g);
-    }
-
-    @Override
-    public void update(Graphics g) {
-        DrawImg();
-
-        g.drawImage(buffimg, 2, 56, this);
-    }
-
-    private void DrawImg() {
-
-    }
-
-    @Override
-    public void run() {
-        while (true) {
-            try {
-                keyProcess();
-                repaint();
-
-                Thread.sleep(20);
-                cnt++;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     public void updateMap() {
         mapBlockNum = ArcadeGamePanel.mapBlockNum;
@@ -114,8 +75,8 @@ public class Game extends Frame implements Runnable {
         boolean checkRight = true;
         boolean checkSpace = true;
 
-        if (input.isKeyUp()) {
-            if (player.getY() <= 2) {
+        if (keyboard.isKeyUp()) {
+            if (player.getY() <= 0) {
                 checkUp = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -132,14 +93,14 @@ public class Game extends Frame implements Runnable {
             }
             if (checkUp) {
                 playerMove = true;
-                player.setY(getY() - player.getSpeed());
+                player.setY(player.getY() - player.getSpeed());
             } else {
                 //				y+=4;
             }
         }
 
-        if (input.isKeyDown()) {
-            if (player.getY() >= MAP_SIZE + 2 - CAT_HEIGHT) {
+        if (keyboard.isKeyDown()) {
+            if (player.getY() >= MAP_SIZE - CAT_HEIGHT) {
                 checkDown = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -147,23 +108,23 @@ public class Game extends Frame implements Runnable {
                     if (mapBlock[i][j].isAppear() && !mapBlock[i][j].isWool()) {
                         if (player.getY() >= (j - 1) * ONE_BLOCK_LENGTH + ONE_BLOCK_LENGTH - CAT_HEIGHT + Y_RELAX &&
                                 player.getY() <= j * ONE_BLOCK_LENGTH + ONE_BLOCK_LENGTH - CAT_HEIGHT - Y_RELAX &&
-                                player.getX() >= (i - 1) * ONE_BLOCK_LENGTH + 2 + X_RELAX &&
-                                player.getX() <= (i + 1) * ONE_BLOCK_LENGTH + 2 - X_RELAX) {
+                                player.getX() >= (i - 1) * ONE_BLOCK_LENGTH + X_RELAX &&
+                                player.getX() <= (i + 1) * ONE_BLOCK_LENGTH - X_RELAX) {
                             checkDown = false;
                         }
                     }
                 }
             }
             if (checkDown) {
-                player.setY(player.getY() + player.getSpeed());
                 playerMove = true;
+                player.setY(player.getY() + player.getSpeed());
             } else {
                 //				y-=4;
             }
         }
 
-        if (input.isKeyLeft()) {
-            if (player.getX() <= 2) {
+        if (keyboard.isKeyLeft()) {
+            if (player.getX() <= 0) {
                 checkLeft = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -186,8 +147,8 @@ public class Game extends Frame implements Runnable {
             }
         }
 
-        if (input.isKeyRight()) {
-            if (player.getX() >= 2 + MAP_SIZE - ONE_BLOCK_LENGTH) {
+        if (keyboard.isKeyRight()) {
+            if (player.getX() >= MAP_SIZE - ONE_BLOCK_LENGTH) {
                 checkRight = false;
             }
             for (int i = 0; i < BLOCK_COUNT; i++) {
@@ -209,7 +170,7 @@ public class Game extends Frame implements Runnable {
                 //				x-=4;
             }
         }
-        if (input.isKeySpace()) {
+        if (keyboard.isKeySpace()) {
 
             if ((player.getX() % ONE_BLOCK_LENGTH >= WOOL_RELAX && player.getX() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX) ||
                     (player.getY() % ONE_BLOCK_LENGTH >= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT && player.getY() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX)) {
@@ -231,5 +192,12 @@ public class Game extends Frame implements Runnable {
 
     }
 
+    public Block getMapBlock(int a, int b) {
+        return mapBlock[a][b];
+    }
+
+    public void setMapBlock(Block mapBlock, int a, int b) {
+        this.mapBlock[a][b] = mapBlock;
+    }
 
 }
