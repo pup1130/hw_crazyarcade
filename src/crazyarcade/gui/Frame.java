@@ -1,7 +1,7 @@
 package crazyarcade.gui;
 
 import crazyarcade.Constant;
-import crazyarcade.exception.CAException;
+import crazyarcade.Game;
 import crazyarcade.gui.menu.Menu;
 
 import javax.swing.*;
@@ -9,12 +9,19 @@ import java.awt.*;
 
 public class Frame extends JFrame implements Constant {
 
-    private StartPanel startPanel;
-    private MenuPanel menuPanel;
-    //    private ArcadeGamePanel arcadeGamePanel;
-    private CardLayout cardLayout;
+    public Game game;
 
-    public Frame() throws CAException {
+    static CardLayout cards = new CardLayout();
+    static SignInOrUpPanel signinorupPanel=new SignInOrUpPanel();
+    static SignInPanel signinPanel=new SignInPanel();
+    static SignUpPanel signupPanel=new SignUpPanel();
+    static StartPanel startPanel = new StartPanel();
+    static MenuPanel menuPanel = new MenuPanel();
+//    static ArcadeModeLoadingPanel arcadeModeLoadingPanel = new ArcadeModeLoadingPanel();
+    static ArcadeGamePanel arcadeGamePanel = new ArcadeGamePanel();
+
+    public Frame() {
+
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         setTitle("Crazy Arcade " + GAME_VERSION);
         setJMenuBar(new Menu(this));
@@ -24,26 +31,19 @@ public class Frame extends JFrame implements Constant {
         setLocationRelativeTo(null);
 //        setBackground();
 
-        cardLayout = new CardLayout();
-
-        startPanel = new StartPanel(this);
-        menuPanel = new MenuPanel(this);
-//        arcadeGamePanel = new ArcadeGamePanel(this);
-
-        setLayout(cardLayout);
+        setLayout(cards);
         cardLayout();
-        cardLayout.show(getContentPane(), "StartPanel");
+        cards.show(getContentPane(), "SignInOrUpPanel");
     }
 
     private void cardLayout() {
+    	add(signinorupPanel,"SignInOrUpPanel");
+    	add(signinPanel,"SignInPanel");
+    	add(signupPanel,"SignUpPanel");
         add(startPanel, "StartPanel");
         add(menuPanel, "MenuPanel");
         //add(arcadeModeLoadingPanel,"ArcadeModeLoadingPanel");
-//        add(arcadeGamePanel, "ArcadeGamePanel");
-    }
-
-    public CardLayout getCards() {
-        return cardLayout;
+        add(arcadeGamePanel, "ArcadeGamePanel");
     }
 
 }
