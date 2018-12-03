@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 
 public class ArcadeGamePanel extends JPanel {
 
-    public static int[][] mapBlock = new int[15][15];
+    public static int[][] mapBlockNum = new int[15][15];
     boolean appear = true;
     boolean isWool = false;
     private Game game;
@@ -58,7 +58,7 @@ public class ArcadeGamePanel extends JPanel {
             stringTokenizer = new StringTokenizer(str);
 
             for (int j = 0; j < 15; j++) {
-                mapBlock[i][j] = Integer.parseInt(stringTokenizer.nextToken());
+                mapBlockNum[i][j] = Integer.parseInt(stringTokenizer.nextToken());
             }
         }
     }
