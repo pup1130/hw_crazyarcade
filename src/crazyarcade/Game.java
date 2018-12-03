@@ -95,7 +95,7 @@ public class Game implements Constant {
                 playerMove = true;
                 player.setY(player.getY() - player.getSpeed());
             } else {
-                //				y+=4;
+                y += 4;
             }
         }
 
@@ -119,7 +119,7 @@ public class Game implements Constant {
                 playerMove = true;
                 player.setY(player.getY() + player.getSpeed());
             } else {
-                //				y-=4;
+                y -= 4;
             }
         }
 
@@ -143,7 +143,7 @@ public class Game implements Constant {
                 player.setX(player.getX() - player.getSpeed());
                 playerMove = true;
             } else {
-                //				x+=4;
+                x += 4;
             }
         }
 
@@ -167,7 +167,7 @@ public class Game implements Constant {
                 player.setX(player.getX() + player.getSpeed());
                 playerMove = true;
             } else {
-                //				x-=4;
+                x -= 4;
             }
         }
         if (keyboard.isKeySpace()) {
@@ -179,14 +179,19 @@ public class Game implements Constant {
             if (checkSpace && !mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].isWool() && WOOL_TAIL - WOOL_HEAD < WOOL_MAX) {
                 if (player.getX() % ONE_BLOCK_LENGTH <= WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH <= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT) {
                     mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setBlockNumber(256);
+                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setWool(true);
                 } else if (player.getX() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH <= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT) {
                     mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH].setBlockNumber(256);
+                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH].setWool(true);
                 } else if (player.getX() % ONE_BLOCK_LENGTH <= WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX) {
                     mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
+                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH + 1].setWool(true);
                 } else if (player.getX() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX) {
                     mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
+                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setWool(true);
                 }
-                mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setWool(true);
+                System.out.println("WOOL!");
+                
             }
         }
 
@@ -196,8 +201,20 @@ public class Game implements Constant {
         return mapBlock[a][b];
     }
 
-    public void setMapBlock(Block mapBlock, int a, int b) {
-        this.mapBlock[a][b] = mapBlock;
+    public void setMapBlock(int a, int b,int num) {
+        this.mapBlock[a][b].setBlockNumber(num);
+    }
+    public int getWoolCount(int a, int b) {
+    	return mapBlock[a][b].getWoolcount();
+    }
+    public void setWoolCount(int a,int b,int t) {
+    	mapBlock[a][b].setWoolcount(t);
+    }
+    public int getExplodeCount(int a, int b) {
+    	return mapBlock[a][b].getExplodecount();
+    }
+    public void setExplodeCount(int a,int b,int t) {
+    	mapBlock[a][b].setExplodecount(t);
     }
 
 }

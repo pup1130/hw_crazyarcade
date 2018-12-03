@@ -16,7 +16,7 @@ import java.util.StringTokenizer;
 public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
 
     public static int[][] mapBlockNum = new int[15][15];
-
+    int dir[][]= {{1,0},{0,1},{-1,0},{0,-1}};
     boolean appear = true;
     boolean isWool = false;
     private Frame frame;
@@ -111,6 +111,7 @@ public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
 
     private void DrawImg() {
 
+        gc.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         for (int i = 0; i < BLOCK_COUNT; i++) {
             for (int j = 0; j < BLOCK_COUNT; j++) {
                 if (mapBlockNum[i][j] != 0) {
@@ -120,7 +121,52 @@ public class ArcadeGamePanel extends JPanel implements Constant, Runnable {
                 }
             }
         }
-        gc.setClip(0, 0, 36, 24);
+        for(int i=0;i<BLOCK_COUNT;i++) {
+        	for(int j=0;j<BLOCK_COUNT;j++) {
+        		if(game.getMapBlock(i, j).isWool()) {
+        			gc.drawImage(game.getMapBlock(i, j).getBlockImage(), i*ONE_BLOCK_LENGTH, j*ONE_BLOCK_LENGTH,this);
+        			if(game.getWoolCount(i, j)<WOOL_LENGTH) {
+        			game.setWoolCount(i, j, game.getWoolCount(i, j)+1);
+        			}
+        			else {
+        				game.setWoolCount(i, j, 0);
+        				game.getMapBlock(i, j).setWool(false);
+        				game.getMapBlock(i, j).setExploded(true);
+        				game.setMapBlock(i, j, 257);
+        				for(int di=0;di<4;di++) {
+        					for(int k=1;k<=game.player.getLength();k++) {
+        						if(i+k*dir[di][0]>=0&&i+k*dir[di][0]<BLOCK_COUNT&&j+k*dir[di][1]>=0&&j+k*dir[di][1]<BLOCK_COUNT) {
+        					if(game.getMapBlock(i+k*dir[di][0],j+k*dir[di][1]).getBlockNumber()==0) {
+        						game.getMapBlock(i+k*dir[di][0],j+k*dir[di][1]).setExploded(true);
+        						game.setMapBlock(i+k*dir[di][0],j+k*dir[di][1],257);
+        						
+        					}
+        					else {
+        						break;
+        					}
+        						}
+        					}
+        				}
+        			}
+        		}
+        	}
+        }
+        for(int i=0;i<BLOCK_COUNT;i++) {
+        	for(int j=0;j<BLOCK_COUNT;j++) {
+        		if(game.getMapBlock(i, j).isExploded()) {
+        			System.out.println(i+" , "+j);
+        			gc.drawImage(game.getMapBlock(i, j).getBlockImage(), i*ONE_BLOCK_LENGTH, j*ONE_BLOCK_LENGTH,this);
+        			if(game.getExplodeCount(i, j)<BOMB_LENGTH) {
+            			game.setExplodeCount(i, j, game.getExplodeCount(i, j)+1);
+            			}
+        			else {
+        				game.setExplodeCount(i, j, 0);
+        				game.getMapBlock(i, j).setExploded(false);
+        			}
+        		}
+        	}
+        }
+        gc.setClip(game.player.getX(), game.player.getY(), 36, 24);
         gc.drawImage(game.player.getImg(), game.player.getX(), game.player.getY(), this);
     }
 

@@ -6,6 +6,7 @@ import java.awt.*;
 public class Player {
     private Image img = new ImageIcon("src\\crazyarcade\\character\\Ket.png").getImage();
     private int speed = 2;
+    private int length=2;
     private int x, y;
 
     public int getSpeed() {
@@ -35,6 +36,14 @@ public class Player {
     public Image getImg() {
         return img;
     }
+
+	public int getLength() {
+		return length;
+	}
+
+	public void setLength(int length) {
+		this.length = length;
+	}
 
 
 }
