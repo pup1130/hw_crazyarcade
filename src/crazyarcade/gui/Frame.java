@@ -1,7 +1,7 @@
 package crazyarcade.gui;
 
 import crazyarcade.Constant;
-import crazyarcade.Game;
+import crazyarcade.exception.CAException;
 import crazyarcade.gui.menu.Menu;
 
 import javax.swing.*;
@@ -9,14 +9,12 @@ import java.awt.*;
 
 public class Frame extends JFrame implements Constant {
 
-    static CardLayout cards = new CardLayout();
-    static StartPanel startPanel = new StartPanel();
-    static MenuPanel menuPanel = new MenuPanel();
-    //    static ArcadeModeLoadingPanel arcadeModeLoadingPanel = new ArcadeModeLoadingPanel();
-    static ArcadeGamePanel arcadeGamePanel = new ArcadeGamePanel();
+    private StartPanel startPanel;
+    private MenuPanel menuPanel;
+    //    private ArcadeGamePanel arcadeGamePanel;
+    private CardLayout cardLayout;
 
-    public Frame() {
-
+    public Frame() throws CAException {
         setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         setTitle("Crazy Arcade " + GAME_VERSION);
         setJMenuBar(new Menu(this));
@@ -26,16 +24,26 @@ public class Frame extends JFrame implements Constant {
         setLocationRelativeTo(null);
 //        setBackground();
 
-        setLayout(cards);
+        cardLayout = new CardLayout();
+
+        startPanel = new StartPanel(this);
+        menuPanel = new MenuPanel(this);
+//        arcadeGamePanel = new ArcadeGamePanel(this);
+
+        setLayout(cardLayout);
         cardLayout();
-        cards.show(getContentPane(), "StartPanel");
+        cardLayout.show(getContentPane(), "StartPanel");
     }
 
     private void cardLayout() {
         add(startPanel, "StartPanel");
         add(menuPanel, "MenuPanel");
         //add(arcadeModeLoadingPanel,"ArcadeModeLoadingPanel");
-        add(arcadeGamePanel, "ArcadeGamePanel");
+//        add(arcadeGamePanel, "ArcadeGamePanel");
+    }
+
+    public CardLayout getCards() {
+        return cardLayout;
     }
 
 }

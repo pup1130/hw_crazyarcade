@@ -23,7 +23,10 @@ public class StartPanel extends JPanel implements Constant {
         }
     }
 
-    StartPanel() {
+    private Frame frame;
+
+    StartPanel(Frame frame) {
+        this.frame = frame;
         setVisible(true);
         setLayout(null);
 
@@ -36,7 +39,7 @@ public class StartPanel extends JPanel implements Constant {
         startButton.setContentAreaFilled(false);
         startButton.setFocusPainted(false);
 
-        startButton.addActionListener(e -> Frame.cards.show(getParent(), "MenuPanel"));
+        startButton.addActionListener(e -> frame.getCards().show(getParent(), "MenuPanel"));
 
         startButton.setBounds(SCREEN_WIDTH / 2 - START_BUTTON_WIDTH / 2, (SCREEN_HEIGHT - 55) / 2 - START_BUTTON_HEIGHT / 2, START_BUTTON_WIDTH, START_BUTTON_HEIGHT);
 

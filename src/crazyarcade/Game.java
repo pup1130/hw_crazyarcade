@@ -1,15 +1,17 @@
 package crazyarcade;
 
-import java.awt.*;
-
 import crazyarcade.character.Player;
+import crazyarcade.exception.CAException;
 import crazyarcade.graphic.mapBlock.Block;
 import crazyarcade.gui.ArcadeGamePanel;
 import crazyarcade.gui.Frame;
-import crazyarcade.Constant;
+
+import java.awt.*;
 
 public class Game extends Frame implements Runnable {
-    
+
+    private Frame frame;
+
     public static int WOOL_MAX = 2;
     public static int WOOL_HEAD = 0;
     public static int WOOL_TAIL = 0;//queue
@@ -35,6 +37,10 @@ public class Game extends Frame implements Runnable {
     Thread thread;
     private Image buffimg;
     private static Graphics gc;
+
+    public Game(Frame frame) throws CAException {
+        this.frame = frame;
+    }
 
     private void init() {
         player.setX(0);

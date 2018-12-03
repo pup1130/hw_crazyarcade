@@ -3,6 +3,7 @@ package crazyarcade.gui;
 import javax.swing.*;
 
 import crazyarcade.Game;
+import crazyarcade.exception.CAException;
 
 import java.awt.*;
 import java.io.*;
@@ -14,13 +15,18 @@ public class ArcadeGamePanel extends JPanel {
     boolean appear = true;
     boolean isWool = false;
     private Game game;
+    private Frame frame;
     static int gameLevel = 0;
 
-    ArcadeGamePanel() {
+
+    ArcadeGamePanel(Frame frame) throws CAException {
+        this.frame = frame;
         setBackground(Color.BLUE);
         setVisible(true);
         setLayout(null);
-//        game.start();
+
+        game = new Game(frame);
+        add(game);
 
         //
         try {
@@ -30,6 +36,8 @@ public class ArcadeGamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        game.start();
 //
 //        try {
 //            readBackgroundInfo(new FileReader("src\\crazyarcade\\graphic\\mapFile\\map2.txt"));

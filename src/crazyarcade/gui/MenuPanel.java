@@ -2,6 +2,7 @@ package crazyarcade.gui;
 
 import crazyarcade.Constant;
 import crazyarcade.Game;
+import crazyarcade.exception.CAException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +10,25 @@ import java.awt.*;
 public class MenuPanel extends JPanel implements Constant {
 
 
-    public Game game = new Game();
+    private Game game;
+    private Frame frame;
+    private ArcadeGamePanel arcadeGamePanel;
+    private JPanel panel;
+    CardLayout cardLayout;
 
-    MenuPanel() {
+    MenuPanel(Frame frame) throws CAException {
+        this.frame = frame;
+        cardLayout = new CardLayout();
+        panel = new JPanel();
+
+
         setBackground(Color.getHSBColor(0.084f, 0.1f, 0.99f));
         setVisible(true);
-        this.setLayout(null);
+        setLayout(cardLayout);
+        panel.setLayout(null);
+//        arcadeGamePanel = new ArcadeGamePanel(frame); -> 여기서 오류 발생
+//        add(arcadeGamePanel);
+//        add(arcadeGamePanel, "ArcadeGamePanel");
 
         JButton arcadeButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\arcadeButton.png"));
         JButton bossButton = new JButton("bossButton");
@@ -42,14 +56,11 @@ public class MenuPanel extends JPanel implements Constant {
 //        returnStartButton.setContentAreaFilled(false);
 //        returnStartButton.setFocusPainted(false);
 
-        arcadeButton.addActionListener(e -> {
-            Frame.cards.show(getParent(), "ArcadeGamePanel");
-            game.start();
-        });
+        arcadeButton.addActionListener(e -> cardLayout.show(getParent(), "ArcadeGamePanel"));
         bossButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
         optionButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
         statusButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
-        returnStartButton.addActionListener(e -> Frame.cards.show(getParent(), "StartPanel"));
+        returnStartButton.addActionListener(e -> frame.getCards().show(getParent(), "StartPanel"));
 
         arcadeButton.setBounds(255, 50, MENU_BUTTON_LENGTH, MENU_BUTTON_LENGTH);
         bossButton.setBounds(505, 50, MENU_BUTTON_LENGTH, MENU_BUTTON_LENGTH);
@@ -57,11 +68,12 @@ public class MenuPanel extends JPanel implements Constant {
         statusButton.setBounds(505, 300, MENU_BUTTON_LENGTH, MENU_BUTTON_LENGTH);
         returnStartButton.setBounds(750, 450, RETURN_START_BUTTON_LENGTH, RETURN_START_BUTTON_LENGTH);
 
-        add(arcadeButton);
-        add(bossButton);
-        add(optionButton);
-        add(statusButton);
-        add(returnStartButton);
+        panel.add(arcadeButton);
+        panel.add(bossButton);
+        panel.add(optionButton);
+        panel.add(statusButton);
+        panel.add(returnStartButton);
 
+        add(panel);
     }
 }
