@@ -2,8 +2,6 @@ package crazyarcade.gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class ArcadeModeLoadingPanel extends JPanel {
 
