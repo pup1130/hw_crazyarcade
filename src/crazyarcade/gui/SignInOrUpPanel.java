@@ -31,7 +31,7 @@ public class SignInOrUpPanel extends JPanel implements Constant {
                 new ImageIcon("src\\crazyarcade\\gui\\startBackground.png").getImage());
         add(signBackgroundPanel);
 
-        JButton signinButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signin.png"));
+        JButton signinButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signin.png"));//로그인 할 수 있는 버튼 생성
         signinButton.setBorderPainted(false);
         signinButton.setContentAreaFilled(false);
         signinButton.setFocusPainted(false);
@@ -42,7 +42,7 @@ public class SignInOrUpPanel extends JPanel implements Constant {
 
         signBackgroundPanel.add(signinButton);
 
-        JButton signupButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signup.png"));
+        JButton signupButton = new JButton(new ImageIcon("src\\crazyarcade\\gui\\signup.png"));//회원가입 할 수 있는 버튼 
         signupButton.setBorderPainted(false);
         signupButton.setContentAreaFilled(false);
         signupButton.setFocusPainted(false);
