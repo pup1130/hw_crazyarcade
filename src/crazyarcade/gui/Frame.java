@@ -11,7 +11,7 @@ public class Frame extends JFrame implements Constant {
 
     private StartPanel startPanel;
     private MenuPanel menuPanel;
-    //    private ArcadeGamePanel arcadeGamePanel;
+    private ArcadeGamePanel arcadeGamePanel;
     private CardLayout cardLayout;
 
     public Frame() throws CAException {
@@ -28,7 +28,7 @@ public class Frame extends JFrame implements Constant {
 
         startPanel = new StartPanel(this);
         menuPanel = new MenuPanel(this);
-//        arcadeGamePanel = new ArcadeGamePanel(this);
+        arcadeGamePanel = new ArcadeGamePanel(this);
 
         setLayout(cardLayout);
         cardLayout();
@@ -39,7 +39,7 @@ public class Frame extends JFrame implements Constant {
         add(startPanel, "StartPanel");
         add(menuPanel, "MenuPanel");
         //add(arcadeModeLoadingPanel,"ArcadeModeLoadingPanel");
-//        add(arcadeGamePanel, "ArcadeGamePanel");
+        add(arcadeGamePanel, "ArcadeGamePanel");
     }
 
     public CardLayout getCards() {

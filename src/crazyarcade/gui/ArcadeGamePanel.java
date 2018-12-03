@@ -25,9 +25,6 @@ public class ArcadeGamePanel extends JPanel {
         setVisible(true);
         setLayout(null);
 
-        game = new Game(frame);
-        add(game);
-
         //
         try {
             readBackgroundInfo(new FileReader("src\\crazyarcade\\graphic\\mapFile\\map1.txt"));
@@ -36,6 +33,9 @@ public class ArcadeGamePanel extends JPanel {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        game = new Game(frame);
+//        this.add(game);
 
 //        game.start();
 //

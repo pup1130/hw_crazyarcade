@@ -43,6 +43,7 @@ public class Game extends Frame implements Runnable {
     }
 
     private void init() {
+        player = new Player();
         player.setX(0);
         player.setY(0);
     }
