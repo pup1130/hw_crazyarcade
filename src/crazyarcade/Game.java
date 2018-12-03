@@ -95,7 +95,7 @@ public class Game extends Frame implements Runnable {
     }
 
     public void updateMap() {
-        mapBlockNum = ArcadeGamePanel.mapBlock;
+        mapBlockNum = ArcadeGamePanel.mapBlockNum;
     }
 
     public void setBlock() {
