@@ -66,9 +66,9 @@ public class MenuPanel extends JPanel implements Constant {
             this.arcadeGamePanel.start();
 //            arcade.start();
         });
-        bossButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
-        optionButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
-        statusButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발 중임"));
+        bossButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발중임"));
+        optionButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발중임"));
+        statusButton.addActionListener(e -> JOptionPane.showMessageDialog(null, "개발중임"));
         returnStartButton.addActionListener(e -> frame.getCards().show(getParent(), "StartPanel"));
 
         arcadeButton.setBounds(255, 50, MENU_BUTTON_LENGTH, MENU_BUTTON_LENGTH);

@@ -15,7 +15,9 @@ public interface Constant {
     int X_RELAX = 4;
     int CAT_HEIGHT = 24;
     int MAP_SIZE = 540;
-    int WOOL_RELAX = 2;
+    int WOOL_RELAX = 6;
+    int WOOL_LENGTH = 50;
+    int BOMB_LENGTH = 25;
 
     String GAME_VERSION = "Dev.";
 

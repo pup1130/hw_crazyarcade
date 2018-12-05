@@ -2,60 +2,65 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/*
+    This code isn't in use at this time.
+ */
+
+
 public class CA extends JFrame implements Runnable, KeyListener {
 
     private static final long serialVersionUID = -918735028859458194L;
 
-    public static final int ONE_BLOCK_LENGTH = 85;
-    public static final int MAP_SIZE = 1020;
-    public static final int CAT_HEIGHT = 60;
-    public static final int Y_RELAX = 5;
-    public static final int X_RELAX = 10;
-    public static final int WOOL_RELAX = 10;//털실을 놓을 때 인식되는 범위
-    public static final int speed = 2;
-    public static final int BLAST_TIME = 150;//털실 터지는 시간
-    public static final int BOMB_LENGTH = 3;
-    public static final int BOMB_TIME_LENGTH = 50;//털실 터지는 동안의 시간
+    static final int ONE_BLOCK_LENGTH = 85;
+    private static final int MAP_SIZE = 1020;
+    private static final int CAT_HEIGHT = 60;
+    private static final int Y_RELAX = 5;
+    private static final int X_RELAX = 10;
+    private static final int WOOL_RELAX = 10;//털실을 놓을 때 인식되는 범위
+    private static final int speed = 2;
+    private static final int BLAST_TIME = 150;//털실 터지는 시간
+    private static final int BOMB_LENGTH = 3;
+    private static final int BOMB_TIME_LENGTH = 50;//털실 터지는 동안의 시간
 
-    public static int BLOCK_COUNT = 106;
-    public static int WOOL_MAX = 2;
-    public static int WOOL_HEAD = 0;
-    public static int WOOL_TAIL = 0;//queue 구현
-    public static int BOMB_HEAD = 0;
-    public static int BOMB_TAIL = 0;//bomb에 대한 queue 구현
+    private static int BLOCK_COUNT = 106;
+    private static int WOOL_MAX = 2;
+    private static int WOOL_HEAD = 0;
+    private static int WOOL_TAIL = 0;//queue 구현
+    private static int BOMB_HEAD = 0;
+    private static int BOMB_TAIL = 0;//bomb 에 대한 queue 구현
 
-    boolean keyUp = false;
-    boolean keyDown = false;
-    boolean keyLeft = false;
-    boolean keyRight = false;
-    boolean keySpace = false;
-    boolean playerMove = false;
+    private boolean keyUp = false;
+    private boolean keyDown = false;
+    private boolean keyLeft = false;
+    private boolean keyRight = false;
+    private boolean keySpace = false;
+    private boolean playerMove = false;
 
-    int tm = 0;
-    Block[] block = new Block[144];
-    Block[] wools = new Block[200];
-    int[][] IsBlock = new int[12][12];//블럭이 없는 경우는 -1, 있는 경우 블럭의 번호
-    int[] flag1 = new int[200];//wool하나에 한층만 터지도록,j값을 저장,-1로 초기화
-    int[] flag2 = new int[200];//wool하나에 한층만 터지도록
-    int[] flag3 = new int[200];//wool하나에 한층만 터지도록
-    int[] flag4 = new int[200];//wool하나에 한층만 터지도록
-    boolean[][] IsWool = new boolean[12][12];
-    Toolkit tk = Toolkit.getDefaultToolkit();
+    private int tm = 0;
+    private Block[] block = new Block[144];
+    private Block[] wools = new Block[200];
+    private int[][] IsBlock = new int[12][12];//블럭이 없는 경우는 -1, 있는 경우 블럭의 번호
+    private int[] flag1 = new int[200];//wool 하나에 한층만 터지도록,j값을 저장,-1로 초기화
+    private int[] flag2 = new int[200];//wool 하나에 한층만 터지도록
+    private int[] flag3 = new int[200];//wool 하나에 한층만 터지도록
+    private int[] flag4 = new int[200];//wool 하나에 한층만 터지도록
+    private boolean[][] IsWool = new boolean[12][12];
+    private Toolkit tk = Toolkit.getDefaultToolkit();
 
-    Image img = new ImageIcon("C:\\Users\\HoJun\\Pictures\\ket\\ket.png").getImage();
-    Image wool = new ImageIcon("C:\\Users\\HoJun\\Pictures\\ket\\털실.png").getImage();
-    Image bomb = new ImageIcon("C:\\Users\\HoJun\\Pictures\\ket\\bomb.png").getImage();
+    private Image img = new ImageIcon("C:\\Users\\HoJun\\Pictures\\ket\\ket.png").getImage();
+    private Image wool = new ImageIcon("C:\\Users\\HoJun\\Pictures\\ket\\털실.png").getImage();
+    private Image bomb = new ImageIcon("C:\\Users\\HoJun\\Pictures\\ket\\bomb.png").getImage();
 
-    Image buffimg;
-    public static Graphics gc;
-    Thread thread;
+    private Image buffimg;
+    static Graphics gc;
+    private Thread thread;
 
-    int x, y;
-    int cnt;
-    int moveStatus;
+    private int x, y;
+    private int cnt;
+    private int moveStatus;
 
 
-    public void setIsBlock() {
+    private void setIsBlock() {
         for (int i = 0; i < 12; i++) {
             for (int j = 0; j < 12; j++) {
                 IsBlock[i][j] = -1;
@@ -66,7 +71,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
         }
     }
 
-    public void setflags() {
+    private void setflags() {
         for (int i = 0; i < 200; i++) {
             flag1[i] = -1;
             flag2[i] = -1;
@@ -75,7 +80,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
         }
     }
 
-    public CA() {
+    CA() {
         setTitle("Crazy Arcade");
         setSize(Main.SCREEN_WIDTH, Main.SCREEN_HEIGHT);
         init();
@@ -203,7 +208,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
 
     }
 
-    public void init() {
+    private void init() {
         x = 0;
         y = 0;
 
@@ -226,7 +231,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
         }
     }
 
-    public void start() {
+    private void start() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.addKeyListener(this);
         thread = new Thread(this);
@@ -246,7 +251,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
         g.drawImage(buffimg, 2, 56, this);
     }
 
-    public void DrawImg() {
+    private void DrawImg() {
         gc.setFont(new Font("Default", Font.BOLD, 20));
         /*
          * gc.drawString(Integer.toString(cnt), 50, 50);
@@ -260,13 +265,13 @@ public class CA extends JFrame implements Runnable, KeyListener {
         // 케릭터를 걸어가게 만들기 위해 추가로 만든 메소드 입니다.
     }
 
-    public void WoolGen(int nx, int ny) {
+    private void WoolGen(int nx, int ny) {
         WOOL_TAIL++;
-        wools[WOOL_TAIL - 1] = new Block(nx, ny, Color.WHITE, true);//white는 wool임을 의미
+        wools[WOOL_TAIL - 1] = new Block(nx, ny, Color.WHITE, true);
 
     }
 
-    public void MoveImage(Image img, int x, int y, int width, int height) {
+    private void MoveImage(Image img, int x, int y, int width, int height) {
         // 케릭터 이미지, 케릭터 위치, 케릭터 크기를 받습니다.
         // 받은 값을 이용해서 위의 이미지칩셋에서 케릭터를 잘라내
         // 표출하도록 계산하는 메소드 입니다.
@@ -385,7 +390,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
         }
     }
 
-    public void keyProcess() {
+    private void keyProcess() {
         // 여기서는 단순 케릭터가 이동하는 좌표 말고도
         // 케릭터의 움직임 여부및 방향을 체크 합니다.
         playerMove = false;
@@ -413,7 +418,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
                 y -= speed;
                 moveStatus = 0;
             } else {
-//				y+=4;//튕기기
+                y += 4;
             }
         }
 
@@ -436,7 +441,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
                 moveStatus = 2;
                 playerMove = true;
             } else {
-//				y-=4;
+                y -= 4;
             }
         }
 
@@ -459,7 +464,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
                 moveStatus = 3;
                 playerMove = true;
             } else {
-//				x+=4;
+                x += 4;
             }
         }
 
@@ -482,7 +487,7 @@ public class CA extends JFrame implements Runnable, KeyListener {
                 moveStatus = 1;
                 playerMove = true;
             } else {
-//				x-=4;
+                x -= 4;
             }
         }
         if (keySpace) {
@@ -554,14 +559,14 @@ public class CA extends JFrame implements Runnable, KeyListener {
 
 class Block {
     int nx, ny;// *85 nx열 ny행 블럭
-    Color myColor;// 블럭 색
+    private Color myColor;// 블럭 색
     boolean removeable;
     boolean appear = true;
     boolean isWool = false;
-    public int blast_time = 0;
-    public int bomb_time = 0;//터지는 동안의 시간
+    int blast_time = 0;
+    int bomb_time = 0;//터지는 동안의 시간
 
-    public Block(int nx, int ny, Color myColor, boolean removeable) {
+    Block(int nx, int ny, Color myColor, boolean removeable) {
         this.nx = nx;
         this.ny = ny;
         this.myColor = myColor;
@@ -571,14 +576,14 @@ class Block {
         }
     }
 
-    public void drawBlock() {
+    void drawBlock() {
         if (appear) {
             CA.gc.setColor(myColor);
             CA.gc.fillRect(2 + nx * CA.ONE_BLOCK_LENGTH, ny * CA.ONE_BLOCK_LENGTH, CA.ONE_BLOCK_LENGTH, CA.ONE_BLOCK_LENGTH);
         }
     }
 
-    public void disappear() {
+    void disappear() {
         if (!removeable)
             return;
         appear = false;

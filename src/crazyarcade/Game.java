@@ -20,26 +20,13 @@ public class Game implements Constant {
     public static int WOOL_TAIL = 0;//queue
     public static int BOMB_HEAD = 0;
     public static int BOMB_TAIL = 0;//bomb queue
+    // TODO: 2018-12-05 Have to move Constant.java
 
-    boolean keyUp = false;
-    boolean keyDown = false;
-    boolean keyLeft = false;
-    boolean keyRight = false;
-    boolean keySpace = false;
-    boolean playerMove = false;
+    private boolean playerMove = false;
 
-
-//    private Keyboard input;
-//    private Player player = ArcadeGamePanel.getPlayer();
 
     private int[][] mapBlockNum;
     private Block[][] mapBlock = new Block[15][15];
-
-    private int x, y;
-    private int cnt;
-    Thread thread;
-    private Image buffimg;
-    private static Graphics gc;
 
     public Game(Frame frame, Keyboard keyboard) throws CAException {
         this.frame = frame;
@@ -50,16 +37,24 @@ public class Game implements Constant {
         player = new Player();
         player.setX(0);
         player.setY(0);
+        player.setLive(true);
+        player.setItem_donut_count(0);
+        player.setItem_pizza_count(0);
+        player.setItem_wool_count(0);
+        player.setSpeed(1.0);
+        player.setLength(1);
+        player.setWool_max(1);
+        player.setCostume1(null);
         updateMap();
         setBlock();
     }
 
 
-    public void updateMap() {
+    private void updateMap() {
         mapBlockNum = ArcadeGamePanel.mapBlockNum;
     }
 
-    public void setBlock() {
+    private void setBlock() {
         for (int i = 0; i < BLOCK_COUNT; i++) {
             for (int j = 0; j < BLOCK_COUNT; j++) {
                 mapBlock[i][j] = new Block(mapBlockNum[i][j]);
@@ -95,7 +90,7 @@ public class Game implements Constant {
                 playerMove = true;
                 player.setY(player.getY() - player.getSpeed());
             } else {
-                y += 4;
+                player.setY(player.getY() + 4);
             }
         }
 
@@ -119,7 +114,7 @@ public class Game implements Constant {
                 playerMove = true;
                 player.setY(player.getY() + player.getSpeed());
             } else {
-                y -= 4;
+                player.setY(player.getY() - 4);
             }
         }
 
@@ -143,7 +138,7 @@ public class Game implements Constant {
                 player.setX(player.getX() - player.getSpeed());
                 playerMove = true;
             } else {
-                x += 4;
+                player.setX(player.getX() + 4);
             }
         }
 
@@ -167,7 +162,7 @@ public class Game implements Constant {
                 player.setX(player.getX() + player.getSpeed());
                 playerMove = true;
             } else {
-                x -= 4;
+                player.setX(player.getX() - 4);
             }
         }
         if (keyboard.isKeySpace()) {
@@ -176,18 +171,32 @@ public class Game implements Constant {
                     (player.getY() % ONE_BLOCK_LENGTH >= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT && player.getY() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX)) {
                 checkSpace = false;
             }
-            if (checkSpace && !mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].isWool() && WOOL_TAIL - WOOL_HEAD < WOOL_MAX) {
+            if (player.getWool_cur() < player.getWool_max() && checkSpace && !mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH)].isWool() && WOOL_TAIL - WOOL_HEAD < WOOL_MAX) {
                 if (player.getX() % ONE_BLOCK_LENGTH <= WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH <= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setWool(true);
+
                 } else if (player.getX() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH <= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setWool(true);
+
                 } else if (player.getX() % ONE_BLOCK_LENGTH <= WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setWool(true);
+
                 } else if (player.getX() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setWool(true);
+
                 }
-                mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setWool(true);
+
             }
+        }
+        if (keyboard.isKeyC()) {
+            player.setCostume1(Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\character\\costume2.png"));
+        }
+        if (keyboard.isKeyX()) {
+            player.setCostume1(null);
         }
 
     }
@@ -196,8 +205,24 @@ public class Game implements Constant {
         return mapBlock[a][b];
     }
 
-    public void setMapBlock(Block mapBlock, int a, int b) {
-        this.mapBlock[a][b] = mapBlock;
+    public void setMapBlock(int a, int b, int num) {
+        this.mapBlock[a][b].setBlockNumber(num);
+    }
+
+    public int getWoolCount(int a, int b) {
+        return mapBlock[a][b].getWoolCount();
+    }
+
+    public void setWoolCount(int a, int b, int t) {
+        mapBlock[a][b].setWoolCount(t);
+    }
+
+    public int getExplodeCount(int a, int b) {
+        return mapBlock[a][b].getExplodeCount();
+    }
+
+    public void setExplodeCount(int a, int b, int t) {
+        mapBlock[a][b].setExplodeCount(t);
     }
 
 }

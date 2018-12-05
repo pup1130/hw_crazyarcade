@@ -11,6 +11,8 @@ public class Keyboard implements KeyListener {
     private boolean keyLeft;
     private boolean keyRight;
     private boolean keySpace;
+    private boolean keyC;
+    private boolean keyX;
 
     public void update() {
         keyUp = keys[KeyEvent.VK_UP];
@@ -18,6 +20,8 @@ public class Keyboard implements KeyListener {
         keyLeft = keys[KeyEvent.VK_LEFT];
         keyRight = keys[KeyEvent.VK_RIGHT];
         keySpace = keys[KeyEvent.VK_SPACE];
+        keyC = keys[KeyEvent.VK_C];
+        keyX = keys[KeyEvent.VK_X];
     }
 
     @Override
@@ -54,5 +58,13 @@ public class Keyboard implements KeyListener {
 
     public boolean isKeySpace() {
         return keySpace;
+    }
+
+    public boolean isKeyC() {
+        return keyC;
+    }
+
+    public boolean isKeyX() {
+        return keyX;
     }
 }
