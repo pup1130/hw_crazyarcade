@@ -1,2 +1,3 @@
 # hw_crazyarcade
-oop class 2018 homework project
+<OOP CLASS 2018 HOMEWORK PROJECT>
+STILL VERY EARLY DEVELOPMENT STAGE.
