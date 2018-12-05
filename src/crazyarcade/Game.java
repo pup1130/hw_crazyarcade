@@ -50,6 +50,14 @@ public class Game implements Constant {
         player = new Player();
         player.setX(0);
         player.setY(0);
+        player.setLive(true);
+        player.setItem_donut_count(0);
+        player.setItem_pizza_count(0);
+        player.setItem_wool_count(0);
+        player.setSpeed(1.0);
+        player.setLength(1);
+        player.setWool_max(1);
+        player.setCostume1(null);
         updateMap();
         setBlock();
     }
@@ -176,22 +184,32 @@ public class Game implements Constant {
                     (player.getY() % ONE_BLOCK_LENGTH >= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT && player.getY() % ONE_BLOCK_LENGTH <= ONE_BLOCK_LENGTH - WOOL_RELAX)) {
                 checkSpace = false;
             }
-            if (checkSpace && !mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].isWool() && WOOL_TAIL - WOOL_HEAD < WOOL_MAX) {
+            if (player.getWool_cur()<player.getWool_max()&&checkSpace && !mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH)].isWool() && WOOL_TAIL - WOOL_HEAD < WOOL_MAX) {
                 if (player.getX() % ONE_BLOCK_LENGTH <= WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH <= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setBlockNumber(256);
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH].setWool(true);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setWool(true);
+                    
                 } else if (player.getX() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH <= WOOL_RELAX + ONE_BLOCK_LENGTH - CAT_HEIGHT) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH].setBlockNumber(256);
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH].setWool(true);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH)].setWool(true);
+                   
                 } else if (player.getX() % ONE_BLOCK_LENGTH <= WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH][player.getY() / ONE_BLOCK_LENGTH + 1].setWool(true);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setWool(true);
+                   
                 } else if (player.getX() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX && player.getY() % ONE_BLOCK_LENGTH >= ONE_BLOCK_LENGTH - WOOL_RELAX) {
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setBlockNumber(256);
-                    mapBlock[player.getX() / ONE_BLOCK_LENGTH + 1][player.getY() / ONE_BLOCK_LENGTH + 1].setWool(true);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setBlockNumber(256);
+                    mapBlock[(int) (player.getX() / ONE_BLOCK_LENGTH + 1)][(int) (player.getY() / ONE_BLOCK_LENGTH + 1)].setWool(true);
+                    
                 }
                 
             }
+        }
+        if(keyboard.isKeyC()) {
+        	player.setCostume1(Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\character\\costume2.png"));
+        }
+        if(keyboard.isKeyX()) {
+        	player.setCostume1(null);
         }
 
     }

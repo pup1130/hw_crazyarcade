@@ -1,18 +1,153 @@
 package crazyarcade.character;
 
-public class Enemy extends Character {
+import java.util.Random;
+
+import crazyarcade.gui.ArcadeGamePanel;
+import crazyarcade.Constant;
+
+import java.awt.Image;
+import java.awt.Toolkit;
+import java.util.LinkedList;
+import java.util.Queue;
+
+
+public class Enemy extends Character implements Constant {
+
+    class Point {
+        int x;
+        int y;
+
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+    }
+
+    int dir[][] = {{1, 0}, {0, 1}, {-1, 0}, {0, -1}};//¹æÇâÀ» ³ªÅ¸³»´Â ¹è¿­
+    int nx, ny;
+    int bomblength = 1;
+    int speed = 6;
+    boolean CanGo[][] = new boolean[15][15];//°¥ ¼ö ÀÖ´Â ºí·Ï
+    int[][] mapBlockNum;
+    Random rand = new Random();
+    public static Image img= Toolkit.getDefaultToolkit().getImage("src\\crazyarcade\\character\\enemy.png");
+
+    Queue<Point> queue = new LinkedList<Point>();//Å½»öÀ» À§ÇÑ Å¥ ¼±¾ğ
+
+    public void start() {
+        mapBlockNum = ArcadeGamePanel.mapBlockNum;
+    }
+
+    @Override
+    public void ToNextCoord(int x, int y, int nx, int ny) {
+        //x,yÇöÀç ÁÂÇ¥ nx,ny ÀÌ¿ôÇÑ ÁÂÇ¥
+
+
+    }
+
+    @Override
+    public void ToOtherCoord(int nx, int ny) {
+
+    }
+
+    public void RandomWalk() {//·£´ıÀ¸·Î °¥ ¼ö ÀÖ´Â ºí·ÏÀ¸·Î °£´Ù
+        for (int j = 1; j <= 3; j++) {
+            int i = rand.nextInt(4);
+            if (mapBlockNum[this.nx + dir[i][0]][this.ny + dir[i][1]] == 0) {
+                this.nx += dir[i][0];
+                this.ny += dir[i][1];
+                break;
+            }
+        }
+    }
+
+    public void SearchDir() {
+        int posx = this.nx;
+        int posy = this.ny;
+        int blockcount = 1;//°¥ ¼ö ÀÖ´Â ºí·Ï °³¼ö
+        int casedir[] = new int[4];// °¢ ¹æÇâ¿¡ Ç³¼± ³õ¾ÒÀ» ¶§ °¡¼­ »ì ¼ö ÀÖ´Â ºí·Ï ¼ö
+        int qx, qy;
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                CanGo[i][j] = false;
+            }
+        }
+
+        CanGo[posx][posy] = true;
+        queue.add(new Point(posx, posy));
+        while (!queue.isEmpty()) {
+            qx = queue.peek().x;
+            qy = queue.peek().y;
+            queue.poll();
+            for (int i = 0; i < 4; i++) {
+                if (mapBlockNum[qx + dir[i][0]][qy + dir[i][1]] == 0 && !CanGo[qx + dir[i][0]][qy + dir[i][1]]) {
+                    CanGo[qx + dir[i][0]][qy + dir[i][1]] = true;
+                    queue.add(new Point(qx + dir[i][0], qy + dir[i][1]));
+                    blockcount++;
+                }
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            casedir[i] = blockcount;
+            if (CanGo[posx + dir[i][0]][posy + dir[i][1]]) {
+                casedir[i]--;
+            }
+            for (int j = 0; j < 4; j++) {
+                for (int k = 1; k <= this.bomblength; k++) {
+                    if (CanGo[posx + dir[i][0] + k * dir[j][0]][posy + dir[i][1] + k * dir[j][1]]) {
+                        casedir[i]--;
+                    }
+                }
+            }
+        }
+
+        int maxdir = 0;//°¥ ¼ö ÀÖ´Â ºí·ÏÀÌ ÃÖ´ëÀÎ ¹æÇâ
+        int maxmap = 0;
+        for (int i = 0; i < 4; i++) {
+            if (maxmap < casedir[i]) {
+                maxmap = casedir[i];
+                maxdir = i;
+            }
+        }
+
+        for (int j = 0; j < 4; j++) {
+            for (int k = 1; k <= this.bomblength; k++) {
+                if (CanGo[posx + dir[maxdir][0] + k * dir[j][0]][posy + dir[maxdir][1] + k * dir[j][1]] == true) {
+                    maxmap--;
+                }
+                CanGo[posx + dir[maxdir][0] + k * dir[j][0]][posy + dir[maxdir][1] + k * dir[j][1]] = false;
+            }
+        }
+
+        if (maxmap <= 0) return;//°¥ °÷ÀÌ ¾øÀ¸¸é ÆøÅºÀ» ³õÁö ¾Ê´Â´Ù.
+        int minlength = 30;
+        int minx = posx;
+        int miny = posy;
+        for (int i = 0; i < 15; i++) {
+            for (int j = 0; j < 15; j++) {
+                if (!CanGo[i][j])
+                    continue;
+                if (i == posx && j == posy)
+                    continue;
+                if (minlength > Math.abs(i - posx) + Math.abs(j - posy)) {
+                    minx = i;
+                    miny = j;
+                }
+
+            }
+        }
+        ToOtherCoord(minx, miny);
+    }
 
 }
 /*
 package crazyarcade.character;
-
 import java.util.Random;
 import crazyarcade.gui.ArcadeGamePanel;
 import crazyarcade.Constant;
-
 import java.util.LinkedList;
 import java.util.Queue;
-
 class Point{
 	int x;
 	int y;
@@ -21,29 +156,28 @@ class Point{
 		this.y=y;
 	}
 }
-
 public class Enemy {
-	int dir[][]= {{1,0},{0,1},{-1,0},{0,-1}};//ë°©í–¥ì„ ë‚˜íƒ€ë‚´ëŠ” ë°°ì—´
+	int dir[][]= {{1,0},{0,1},{-1,0},{0,-1}};//¹æÇâÀ» ³ªÅ¸³»´Â ¹è¿­
 	int nx,ny;
 	int bomblength=1;
 	int speed=6;
-	boolean CanGo[][]=new boolean[15][15];//ê°ˆ ìˆ˜ ìˆëŠ” ë¸”ë¡
+	boolean CanGo[][]=new boolean[15][15];//°¥ ¼ö ÀÖ´Â ºí·Ï
 	int [][] mapBlockNum;
 	Random rand=new Random();
 	
-	Queue<Point> queue=new LinkedList<Point>();//íƒìƒ‰ì„ ìœ„í•œ í ì„ ì–¸
+	Queue<Point> queue=new LinkedList<Point>();//Å½»öÀ» À§ÇÑ Å¥ ¼±¾ğ
 	public void start() {
 		mapBlockNum=ArcadeGamePanel.mapBlockNum;
 	}
 	public void ToNextCoord(int x,int y,int nx,int ny) {
-		//x,yí˜„ì¬ ì¢Œí‘œ nx,ny ì´ì›ƒí•œ ì¢Œí‘œ
+		//x,yÇöÀç ÁÂÇ¥ nx,ny ÀÌ¿ôÇÑ ÁÂÇ¥
 		
 		
 	}
 	public void ToOtherCoord(int nx,int ny){
 		
 	}
-	public void RandomWalk() {//ëœë¤ìœ¼ë¡œ ê°ˆ ìˆ˜ ìˆëŠ” ë¸”ë¡ìœ¼ë¡œ ê°„ë‹¤
+	public void RandomWalk() {//·£´ıÀ¸·Î °¥ ¼ö ÀÖ´Â ºí·ÏÀ¸·Î °£´Ù
 		for(int j=1;j<=3;j++) {
 			int i=rand.nextInt(4);
 			if(mapBlockNum[this.nx+dir[i][0]][this.ny+dir[i][1]]==0) {
@@ -57,8 +191,8 @@ public class Enemy {
 	public void SearchDir() {
 		int posx=this.nx;
 		int posy=this.ny;
-		int blockcount=1;//ê°ˆ ìˆ˜ ìˆëŠ” ë¸”ë¡ ê°œìˆ˜
-		int casedir[]=new int[4];// ê° ë°©í–¥ì— í’ì„  ë†“ì•˜ì„ ë•Œ ê°€ì„œ ì‚´ ìˆ˜ ìˆëŠ” ë¸”ë¡ ìˆ˜
+		int blockcount=1;//°¥ ¼ö ÀÖ´Â ºí·Ï °³¼ö
+		int casedir[]=new int[4];// °¢ ¹æÇâ¿¡ Ç³¼± ³õ¾ÒÀ» ¶§ °¡¼­ »ì ¼ö ÀÖ´Â ºí·Ï ¼ö
 		int qx,qy;
 		for(int i=0;i<15;i++) {
 			for(int j=0;j<15;j++) {
@@ -95,7 +229,7 @@ public class Enemy {
 			}
 		}
 		
-		int maxdir = 0;//ê°ˆ ìˆ˜ ìˆëŠ” ë¸”ë¡ì´ ìµœëŒ€ì¸ ë°©í–¥
+		int maxdir = 0;//°¥ ¼ö ÀÖ´Â ºí·ÏÀÌ ÃÖ´ëÀÎ ¹æÇâ
 		int maxmap = 0;
 		for(int i=0;i<4;i++) {
 			if(maxmap<casedir[i]) {
@@ -113,7 +247,7 @@ public class Enemy {
 			}
 		}
 		
-		if(maxmap<=0) return;//ê°ˆ ê³³ì´ ì—†ìœ¼ë©´ í­íƒ„ì„ ë†“ì§€ ì•ŠëŠ”ë‹¤.
+		if(maxmap<=0) return;//°¥ °÷ÀÌ ¾øÀ¸¸é ÆøÅºÀ» ³õÁö ¾Ê´Â´Ù.
 		int minlength=30;
 		int minx=posx;
 		int miny=posy;

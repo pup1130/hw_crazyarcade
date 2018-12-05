@@ -17,15 +17,15 @@ public class Help extends JMenu {
          */
         JMenuItem about = new JMenuItem("About");
         about.addActionListener(e -> JOptionPane.showMessageDialog(
-                null, "2018 OOP Project\nCreated by\nì´í˜¸ì¤€  & ì •í˜„ìš°"," About",1));
+                null, "2018 OOP Project\nCreated by\nÀÌÈ£ÁØ & Á¤Çö¿ì"," About",1));
         add(about);
         JMenuItem manual = new JMenuItem("Manual");
         manual.addActionListener(e -> JOptionPane.showMessageDialog(
-        		null, "\në°©í–¥í‚¤ë¡œ ìºë¦­í„° ì´ë™\nSpacebarë¡œ í„¸ì‹¤ ì„¤ì¹˜\n\n\n<Arcade Mode>\n\n ìƒëŒ€ë°©ì„ ì£½ì´ë©´ ë‹¤ìŒë‹¨ê³„ë¡œ\n\n\n<Boss Mode>\n\n ë³´ìŠ¤ë¥¼ ì£½ì´ë©´ ë‹¤ìŒë‹¨ê³„ë¡œ","Manual",1));
+        		null, "\n¹æÇâÅ°·Î Ä³¸¯ÅÍ ÀÌµ¿\nSpacebar·Î ÅĞ½Ç ¼³Ä¡\n\n\n<Arcade Mode>\n\n »ó´ë¹æÀ» Á×ÀÌ¸é ½Â¸®\n\n\n<Boss Mode>\n\n º¸½º¸¦ Á×ÀÌ¸é ½Â¸®","Manual",1));
         add(manual);
         JMenuItem items = new JMenuItem("items");
         items.addActionListener(e-> JOptionPane.showMessageDialog(
-        		null, "\nItems\n\n\npizza\n\nìºë¦­í„°ì˜ ì†ë„ ì¦ê°€", "Items", 1));
+        		null, "\nItems\n\n\npizza\n\nÄ³¸¯ÅÍ ¼Óµµ Áõ°¡\n\n\nwool\n\n¼³Ä¡ °¡´ÉÇÑ ÅĞ½Ç ¼ö Áõ°¡\n\n\ndonut\n\nÅÍÁö´Â °Å¸® Áõ°¡", "Items", 1));
         add(items);
      }
 }
